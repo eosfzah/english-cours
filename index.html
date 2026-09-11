@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سجّل في الكورس — English Speaking Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A3D;
+    --ink-soft:#54677D;
+    --paper:#FBF7EE;
+    --paper-dim:#F0E8D6;
+    --line:#E2D6BA;
+    --amber:#B87F2C;
+    --amber-deep:#8F5F1E;
+    --amber-soft:#E9C88A;
+    --brick:#A23F2A;
+    --radius:5px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Tajawal',sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit;}
+
+  .wrap{max-width:780px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:rgba(251,247,238,.88); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:14px; padding-bottom:14px;
+  }
+  .brand{display:flex; align-items:center; gap:9px; font-weight:700; font-size:15px;}
+  .brand svg{flex:0 0 auto;}
+  .topbar .btn{padding:9px 18px; font-size:14px;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 0 46px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    color:var(--ink-soft); font-size:14.5px; margin-bottom:20px;
+  }
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--amber); flex:0 0 auto;}
+  .hero h1{
+    font-size:clamp(32px,5.6vw,50px);
+    font-weight:900;
+    margin:0 0 20px;
+    line-height:1.32;
+    max-width:15ch;
+  }
+  .hero h1 mark{
+    background:none; color:inherit;
+    position:relative; z-index:0;
+  }
+  .hero h1 mark::after{
+    content:'';
+    position:absolute; inset-inline:-3px; bottom:2px;
+    height:0.32em; background:var(--amber-soft);
+    z-index:-1; opacity:.75; border-radius:1px;
+  }
+  .hero p.lead{
+    font-size:18.5px;
+    color:var(--ink-soft);
+    max-width:50ch;
+    margin:0 0 30px;
+  }
+  .hero .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:var(--paper);
+    padding:14px 26px; border-radius:var(--radius);
+    font-weight:700; font-size:16px; border:none; cursor:pointer;
+    text-decoration:none; font-family:'Tajawal',sans-serif;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:var(--brick);}
+  .btn:active{transform:scale(.98);}
+  .btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .btn.ghost{
+    background:transparent; color:var(--ink); border:1.5px solid var(--line);
+  }
+  .btn.ghost:hover{border-color:var(--ink);}
+
+  /* waveform */
+  .wave{display:flex; align-items:flex-end; gap:4px; height:30px; margin-top:38px;}
+  .wave span{
+    display:block; width:4px; border-radius:2px; background:var(--amber-soft);
+    transform:scaleY(0); transform-origin:bottom;
+    animation:rise .5s ease forwards;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .wave span{animation:none; transform:scaleY(1);}
+  }
+  @keyframes rise{to{transform:scaleY(1);}}
+
+  /* ---------- Sections ---------- */
+  section{padding:46px 0; border-bottom:1px solid var(--line);}
+  section h2{font-size:24px; font-weight:900; margin:0 0 8px;}
+  section .sub{color:var(--ink-soft); font-size:15px; margin:0 0 28px; max-width:56ch;}
+
+  /* level meters */
+  .level{margin-bottom:28px;}
+  .level .row{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:10px;}
+  .level .row .name{font-weight:700; font-size:16.5px;}
+  .level .row .need{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px;
+    color:var(--ink); background:var(--paper-dim); border-radius:20px;
+    padding:4px 13px; white-space:nowrap;
+  }
+  .meter{display:grid; grid-template-columns:repeat(6,1fr); gap:5px; height:12px;}
+  .meter div{background:var(--paper-dim); border-radius:2px; position:relative;}
+  .meter div.on{background:var(--amber);}
+  .meter div.half::after{
+    content:''; position:absolute; inset:0; inset-inline-start:50%;
+    background:var(--paper-dim); border-radius:0 2px 2px 0;
+  }
+  .scale{display:grid; grid-template-columns:repeat(6,1fr); gap:5px; margin-top:6px;}
+  .scale span{font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--ink-soft); text-align:center;}
+  .level p.desc{font-size:14.5px; color:var(--ink-soft); margin:12px 0 0;}
+
+  .test-note{
+    background:var(--paper-dim); border-inline-start:3px solid var(--amber);
+    padding:16px 18px; border-radius:0 var(--radius) var(--radius) 0; font-size:14.5px; color:var(--ink-soft);
+    box-shadow:0 1px 2px rgba(27,42,61,.05), 0 8px 18px -12px rgba(27,42,61,.25);
+  }
+  .test-note a{color:var(--brick); font-weight:700; text-decoration:none;}
+  .test-note a:hover{text-decoration:underline;}
+
+  /* benefits (not a sequence -> icon list, no numbering) */
+  .benefits{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+  .benefits li{
+    display:flex; gap:16px; align-items:flex-start;
+    padding:18px; background:var(--paper-dim); border-radius:var(--radius);
+    box-shadow:0 1px 2px rgba(27,42,61,.05), 0 8px 18px -12px rgba(27,42,61,.25);
+  }
+  .benefits li .ic{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%;
+    background:var(--ink); display:flex; align-items:center; justify-content:center;
+  }
+  .benefits li strong{display:block; margin-bottom:3px; font-size:16px;}
+  .benefits li span.d{color:var(--ink-soft); font-size:14.5px;}
+
+  /* timeline (genuine sequence) */
+  .tl{position:relative; padding-inline-start:26px; margin-top:8px;}
+  .tl::before{
+    content:''; position:absolute; top:6px; bottom:6px; right:10px;
+    width:2px; background:var(--amber-soft);
+  }
+  .tl-item{position:relative; padding-bottom:26px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:''; position:absolute; right:-21px; top:5px;
+    width:12px; height:12px; border-radius:50%;
+    background:var(--paper); border:2.5px solid var(--amber);
+  }
+  .tl-item .when{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; color:var(--amber-deep); margin-bottom:3px;}
+  .tl-item h3{margin:0 0 4px; font-size:17px;}
+  .tl-item p{margin:0; color:var(--ink-soft); font-size:14.5px;}
+  .tl-item.goal::before{background:var(--amber); border-color:var(--amber);}
+  .tl-item.goal .badge{
+    display:inline-block; margin-top:6px; font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; background:var(--ink); color:var(--paper);
+    padding:4px 13px; border-radius:20px;
+  }
+
+  /* ---------- Form ---------- */
+  #register{border-bottom:none;}
+  .form-card{
+    background:var(--ink); color:var(--paper);
+    border-radius:10px; padding:38px 32px;
+    box-shadow:0 18px 40px -18px rgba(27,42,61,.45);
+  }
+  .form-card h2{color:var(--paper);}
+  .form-card .sub{color:#B9C3CF;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:14px; font-weight:700; margin-bottom:8px; color:#DCE3E9;}
+  .field input{
+    width:100%; padding:13px 14px; border-radius:var(--radius);
+    border:1.5px solid #33445B; background:#101F31; color:var(--paper);
+    font-family:'Tajawal',sans-serif; font-size:15.5px; outline:none;
+    transition:border-color .15s ease;
+  }
+  .field input::placeholder{color:#6C7C8F;}
+  .field input:focus{border-color:var(--amber);}
+  .field .err{color:#E8A87C; font-size:13px; margin-top:6px; display:none;}
+  .field.invalid input{border-color:var(--brick);}
+  .field.invalid .err{display:block;}
+  .hint{font-size:12.5px; color:#8FA0B2; margin-top:6px;}
+
+  .submit-row{display:flex; align-items:center; gap:16px; margin-top:24px; flex-wrap:wrap;}
+  .form-card .btn{background:var(--amber); color:var(--ink);}
+  .form-card .btn:hover{background:var(--amber-soft);}
+  .form-card .btn:disabled{opacity:.6; cursor:default;}
+  .count{font-size:13.5px; color:#8FA0B2;}
+
+  .success{display:none; text-align:center; padding:18px 0 4px;}
+  .success.show{display:block;}
+  .success .check{
+    width:50px; height:50px; border-radius:50%; background:var(--amber);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 16px;
+  }
+  .success h3{margin:0 0 8px; font-size:19px;}
+  .success p{margin:0; color:#B9C3CF; font-size:14.5px;}
+  .form-body.hidden{display:none;}
+
+  footer{padding:30px 0 50px;}
+  footer .foot-row{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    color:var(--ink-soft); font-size:13px;
+  }
+
+  @media (max-width:520px){
+    .hero{padding:40px 0 32px;}
+    .form-card{padding:26px 20px;}
+    .benefits li{flex-direction:column; align-items:flex-start;}
+    footer .foot-row{justify-content:center; text-align:center;}
+  }
+
+  /* ---------- Urgency banner ---------- */
+  .banner{
+    background:var(--brick); color:var(--paper);
+    text-align:center; font-size:14px; font-weight:700;
+    padding:11px 16px;
+  }
+  .banner strong{color:var(--amber-soft);}
+
+  /* ---------- Pricing ---------- */
+  .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;}
+  .price-card{
+    background:var(--paper-dim); border-radius:var(--radius);
+    padding:24px 20px; text-align:center; position:relative;
+    border:2px solid var(--amber);
+    box-shadow:0 1px 2px rgba(27,42,61,.05), 0 8px 18px -12px rgba(27,42,61,.25);
+  }
+  .price-card.best{border:2px solid var(--amber); box-shadow:0 1px 2px rgba(27,42,61,.05), 0 10px 24px -12px rgba(184,127,44,.35);}
+  .price-card .tag{
+    position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+    background:var(--amber); color:var(--ink); font-size:12px; font-weight:700;
+    padding:3px 13px; border-radius:20px; font-family:'Space Grotesk',sans-serif; white-space:nowrap;
+  }
+  .price-card .amount{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:32px; margin:6px 0 2px;}
+  .price-card .amount span{font-size:15px; font-weight:600; color:var(--ink-soft);}
+  .price-card .old-price{
+    font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600;
+    color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--brick);
+    display:inline-block; margin-inline-end:8px; opacity:.75;
+  }
+  .price-card .discount-badge{
+    display:inline-block; background:var(--brick); color:var(--paper);
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px;
+    padding:3px 10px; border-radius:20px; margin-bottom:10px;
+  }
+  .price-card .period{color:var(--ink-soft); font-size:13.5px; margin-bottom:8px;}
+  .price-card .desc{font-size:13.5px; color:var(--ink-soft); margin:0;}
+
+  .notes-stack{display:grid; gap:14px;}
+
+  @media (max-width:520px){
+    .price-grid{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="11" r="10.25" stroke="#B87F2C" stroke-width="1.5"/>
+        <path d="M7 9v4M11 6.5v9M15 9v4" stroke="#1B2A3D" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      English Speaking Lab
+    </div>
+    <a href="#register" class="btn">سجّل الآن</a>
+  </div>
+</div>
+
+<div class="banner">⏳ التسجيل مفتوح لفترة محدودة لحد <strong>15 أكتوبر</strong> — والأماكن محدودة جدًا</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow"><span class="dot"></span>كورس أونلاين مباشر — استماع وتحدث</div>
+    <h1>استعد تتكلم بثقة<br><mark>مش بس تفهم.</mark></h1>
+    <p class="lead">
+      كورس مكثف لتطوير مهارتي الاستماع والتحدث، بشرح كامل باللغة الإنجليزية،
+      وتصحيح نطق مستمر، لحد ما توصل لمستوى B1+.
+    </p>
+    <div class="cta-row">
+      <a href="#register" class="btn">سجّل الآن</a>
+      <a href="#requirements" class="btn ghost">شوف المتطلبات الأول</a>
+    </div>
+    <div class="wave" id="wave"></div>
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <section id="requirements">
+    <h2>هل مستواك مناسب للكورس؟</h2>
+    <p class="sub">علشان تستفيد بأقصى شكل ممكن، فيه حد أدنى من المستوى مطلوب قبل ما تبدأ:</p>
+
+    <div class="level">
+      <div class="row">
+        <span class="name">الاستماع (Listening)</span>
+        <span class="need mono">A2 على الأقل</span>
+      </div>
+      <div class="meter">
+        <div class="on"></div><div class="on"></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="scale"><span>A1</span><span>A2</span><span>B1</span><span>B1+</span><span>B2</span><span>C1</span></div>
+      <p class="desc">تقدر تفهم الأفكار الرئيسية والجمل الواضحة في محادثات يومية بسيطة وبطيئة نسبيًا.</p>
+    </div>
+
+    <div class="level">
+      <div class="row">
+        <span class="name">التحدث (Speaking)</span>
+        <span class="need mono">A1+ إلى A2</span>
+      </div>
+      <div class="meter">
+        <div class="on"></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="scale"><span>A1</span><span>A2</span><span>B1</span><span>B1+</span><span>B2</span><span>C1</span></div>
+      <p class="desc">تقدر تعبّر عن نفسك بجمل تعريفية بسيطة، وتسأل وتجاوب على أسئلة أساسية.</p>
+    </div>
+
+    <div class="test-note">
+      مش متأكد من مستواك؟ جرّب اختبار تحديد مستوى مجاني وسريع زي
+      <a href="https://www.britishcouncil.org" target="_blank" rel="noopener">British Council</a>
+      أو
+      <a href="https://www.efset.org" target="_blank" rel="noopener">EF SET</a>
+      قبل التسجيل.
+    </div>
+  </section>
+
+  <!-- TEACHERS -->
+  <section>
+    <h2>مين هيدرّسلك؟</h2>
+    <p class="sub">مجموعة مدرسين بمستوى لغة عالي، وخبرة عملية حقيقية في تدريس المحادثة.</p>
+    <ul class="benefits">
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>مستوى اللغة من C1 لحد B2+</strong><span class="d">كل المدرسين معاهم مستوى لغة عالي، يضمنلك نطق واستخدام سليم للغة من أول حصة.</span></div>
+      </li>
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>خبرة عملية في التدريس</strong><span class="d">مش بس متمكنين من اللغة، كمان عندهم خبرة عملية حقيقية في تدريس الاستماع والتحدث.</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- WHAT YOU'LL GET -->
+  <section>
+    <h2>إيه اللي هيحصل في الكورس؟</h2>
+    <p class="sub">التركيز طول الوقت على الاستماع والتحدث، مش الحفظ.</p>
+    <ul class="benefits">
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>شرح كامل بالإنجليزية</strong><span class="d">لتقوية أذنك وتعويدها على اللغة من أول يوم.</span></div>
+      </li>
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>تصحيح نطق مستمر</strong><span class="d">مش هنسيبك تتعلم غلط، هنصحح أول بأول.</span></div>
+      </li>
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>بناء الثقة في الكلام</strong><span class="d">هدفنا تتكلم من غير خوف من الغلط.</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SCHEDULE & PLATFORM -->
+  <section>
+    <h2>إزاي هيبقى شكل الحصص؟</h2>
+    <p class="sub">برنامج مكثف مبني على التكرار والمتابعة المستمرة.</p>
+    <ul class="benefits">
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>حصتين في الأسبوع</strong><span class="d">كل حصة مدتها ساعتين، تدريب مكثف على الاستماع والتحدث.</span></div>
+      </li>
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>واجبات وفيديوهات متابعة</strong><span class="d">بتتبعت على جروب الطلاب: فيديوهات شادوينج (Shadowing)، كلمات للحفظ، وفيديوهات لستنينج.</span></div>
+      </li>
+      <li>
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="#FBF7EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><strong>المنصة</strong><span class="d">الحصص لايف أونلاين على Zoom أو Google Meet.</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PRICING -->
+  <section>
+    <h2>الأسعار</h2>
+    <p class="sub">أسعار واضحة، من غير أي رسوم مخفية.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <span class="discount-badge mono">خصم</span>
+        <div class="amount mono"><span class="old-price">$45</span>$40<span> / شهر</span></div>
+        <p class="desc">اشتراك شهري عادي.</p>
+      </div>
+      <div class="price-card best">
+        <span class="tag mono">وفّر أكتر</span>
+        <div class="amount mono"><span class="old-price">$90</span>$70<span> / شهرين</span></div>
+        <p class="desc">لو حجزت الشهرين مع بعض.</p>
+      </div>
+    </div>
+    <div class="test-note">
+      ظروفك المادية صعبة؟ تواصل معانا وهنوفرلك خصم يوصل لـ <strong>90%</strong> من السعر.
+    </div>
+  </section>
+
+  <!-- GUARANTEE & FREE TRIAL -->
+  <section>
+    <h2>الضمان والتجربة المجانية</h2>
+    <p class="sub">واثقين في الطريقة، وده الضمان بتاعنا.</p>
+    <div class="notes-stack">
+      <div class="test-note">
+        <strong>تجربة مجانية:</strong>&nbsp;حصتين تجربة من غير أي التزام، قبل ما تقرر تكمل.
+      </div>
+      <div class="test-note">
+        <strong>ضمان الوصول لـ B1+:</strong>&nbsp;لو حضرت كل الحصص وعملت كل الواجبات وماوصلتش لمستوى B1، بنرجّعلك 50% من المبلغ فورًا.
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section>
+    <h2>خطة الشهرين</h2>
+    <div class="tl">
+      <div class="tl-item">
+        <div class="when mono">الشهر الأول</div>
+        <h3>أزمنة البسيط والمستمر</h3>
+        <p>هننهي تمامًا دراسة الـ Simple والـ Continuous بكل استخداماتها.</p>
+      </div>
+      <div class="tl-item">
+        <div class="when mono">الشهر الثاني</div>
+        <h3>روابط الكلمات ومعالجة الأخطاء</h3>
+        <p>شغل أعمق على الـ linking بين الكلمات، مع متابعة ومعالجة أخطاء كل طالب.</p>
+      </div>
+      <div class="tl-item goal">
+        <div class="when mono">النهاية</div>
+        <h3>الهدف النهائي</h3>
+        <p>توصل لمستوى ثابت في الاستماع والتحدث.</p>
+        <span class="badge mono">B1+</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register">
+    <div class="form-card">
+      <h2>سجّل بياناتك</h2>
+      <p class="sub">هنتواصل معاك على واتساب بتفاصيل بدء الكورس.</p>
+
+      <form id="regForm" class="form-body" novalidate>
+        <div class="field" id="f-name">
+          <label for="name">الاسم</label>
+          <input id="name" type="text" placeholder="اسمك بالكامل" autocomplete="name">
+          <div class="err">من فضلك اكتب اسمك.</div>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="email">البريد الإلكتروني</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+          <div class="err">اكتب بريد إلكتروني صحيح.</div>
+        </div>
+
+        <div class="field" id="f-phone">
+          <label for="phone">رقم الواتساب</label>
+          <input id="phone" type="tel" placeholder="مثال: 01012345678" autocomplete="tel">
+          <div class="hint">اكتب الرقم اللي هتستخدمه على واتساب (بالكود الدولي لو محتاج).</div>
+          <div class="err">اكتب رقم واتساب صحيح (٨ أرقام على الأقل).</div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn" id="submitBtn">سجّل الآن</button>
+          <span class="count mono" id="countLine"></span>
+        </div>
+      </form>
+
+      <div class="success" id="success">
+        <div class="check">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12.5L9.5 18L20 6" stroke="#1B2A3D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>تم التسجيل بنجاح!</h3>
+        <p>هنتواصل معاك على واتساب قريبًا بتفاصيل الكورس.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-row">
+      <div class="brand" style="font-size:13.5px; color:var(--ink-soft); font-weight:500;">English Speaking Lab</div>
+      <span>سجّل مرة واحدة فقط بكل بريد إلكتروني.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // sound-wave hero decoration
+  (function(){
+    const wave = document.getElementById('wave');
+    const heights = [10,18,26,16,32,20,28,14,24,12,30,18,10];
+    heights.forEach((h,i)=>{
+      const bar = document.createElement('span');
+      bar.style.height = h + 'px';
+      bar.style.animationDelay = (i * 0.035) + 's';
+      wave.appendChild(bar);
+    });
+  })();
+
+  const form = document.getElementById('regForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const success = document.getElementById('success');
+  const countLine = document.getElementById('countLine');
+
+  function setInvalid(id, invalid){
+    document.getElementById(id).classList.toggle('invalid', invalid);
+  }
+
+  function validate(){
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    const nameOk = name.length >= 2;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const digits = phone.replace(/\D/g,'');
+    const phoneOk = digits.length >= 8;
+
+    setInvalid('f-name', !nameOk);
+    setInvalid('f-email', !emailOk);
+    setInvalid('f-phone', !phoneOk);
+
+    return nameOk && emailOk && phoneOk ? {name, email, phone} : null;
+  }
+
+  countLine.textContent = '';
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const data = validate();
+    if(!data) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'بنسجّل...';
+
+    try{
+      const res = await fetch('https://formspree.io/f/xaeyvqzz', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(data)
+      });
+
+      if(res.ok){
+        form.classList.add('hidden');
+        success.classList.add('show');
+      }else{
+        throw new Error('submit failed');
+      }
+    }catch(err){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'سجّل الآن';
+      alert('حصلت مشكلة في التسجيل، حاول تاني.');
+    }
+  });
+</script>
+
+</body>
+</html>
